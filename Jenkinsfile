@@ -16,6 +16,7 @@ pipeline {
       steps{
         sh 'ls -la'
         sh 'docker -v'
+        sh 'echo ${GITHUB_CRED}'
         script {
           dockerImage = docker.build imagename
         }
