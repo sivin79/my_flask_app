@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
-    tag = latest
+    tag = 'latest'
     dockerImage = ''
   }
   agent { label 'flask' }
