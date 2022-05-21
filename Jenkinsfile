@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
-    tag = '$GIT_COMMIT'
+    tag = 'v.0.0.1'
     dockerImage = ''
   }
   agent { label 'flask' }
