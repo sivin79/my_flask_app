@@ -2,6 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
+    tag = latest
     dockerImage = ''
   }
   agent { label 'flask' }
@@ -17,7 +18,7 @@ pipeline {
         echo '========== Building image ==========='
         sh 'docker -v'
         sh 'echo $dockerhub_sivenkov'        
-        sh 'sudo docker build -t $imagename .'
+        sh 'sudo docker build -t $imagename:$tag .'
       }
     }
     stage('Docker login') {
@@ -31,7 +32,7 @@ pipeline {
     stage('Docker push') {
         steps {
             echo '========== start pushing image ==========='
-            sh 'sudo docker push $imagename:latest'
+            sh 'sudo docker push $imagename:$tag'
         }
     }
 
