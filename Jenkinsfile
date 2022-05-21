@@ -29,29 +29,18 @@ pipeline {
     }
     stage('Docker push') {
         steps {
-            sh "echo '========== start pushing image ==========='"
+            echo '========== start pushing image ==========='
             sh 'sudo docker push $imagename:latest'
         }
     }
 
 
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
-          }
-        }
-      }
-    }
-
 
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
+          echo '========== Removing Unused docker image ==========='
+          sh "sudo docker rmi $imagename:$BUILD_NUMBER"
+          sh "sudo docker rmi $imagename:latest"
 
       }
     }
