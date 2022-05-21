@@ -21,16 +21,16 @@ pipeline {
     }
     stage('Docker login') {
         steps {
-            sh "echo '==========docker login==========='"
+            echo '==========docker login==========='
             withCredentials([usernamePassword(credentialsId: 'dockerhub_sivenkov', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh 'docker login -u $USERNAME -p $PASSWORD'
+                sh 'sudo docker login -u $USERNAME -p $PASSWORD'
             }
         }
     }
     stage('Docker push') {
         steps {
             sh "echo '========== start pushing image ==========='"
-            sh 'docker push $imagename:latest'
+            sh 'sudo docker push $imagename:latest'
         }
     }
 
