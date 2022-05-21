@@ -1,8 +1,8 @@
 pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
-    registryCredential = 'sivin79'
-    tag = "$GIT_COMMIT"
+    registryCredential = "sivin79"
+    tag = "latest"
     dockerImage = ''
   }
   agent { label 'flask' }
@@ -10,7 +10,6 @@ pipeline {
     stage('Cloning Git') {
       steps {
         git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: 'dockerhub_sivenkov'])
-
       }
     }
     stage('Building image') {
@@ -34,14 +33,10 @@ pipeline {
             sh "sudo docker push $imagename:$tag"
         }
     }
-
-
-
     stage('Remove Unused docker image') {
       steps{
           echo '========== Removing Unused docker image ==========='          
           sh "sudo docker rmi $imagename:$tag"
-
       }
     }
   }
