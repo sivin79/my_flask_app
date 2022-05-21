@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
-    tag = 'v.0.0.2'
+    tag = "$GIT_COMMIT"
     dockerImage = ''
   }
   agent { label 'flask' }
@@ -15,12 +15,9 @@ pipeline {
     }
     stage('Building image') {
       steps{        
-        echo '========== Building image ==========='
-        sh 'docker -v'
-        sh 'echo $BUILD_NUMBER'
-        sh 'echo $GIT_COMMIT'
-        sh 'echo $dockerhub_sivenkov'        
-        sh 'sudo docker build -t $imagename:$GIT_COMMIT .'
+        echo "========== Building image ==========="
+        sh "docker -v"        
+        sh "sudo docker build -t $imagename:$tag ."
       }
     }
     stage('Docker login') {
@@ -34,7 +31,7 @@ pipeline {
     stage('Docker push') {
         steps {
             echo '========== start pushing image ==========='
-            sh "sudo docker push $imagename:$GIT_COMMIT"
+            sh "sudo docker push $imagename:$tag"
         }
     }
 
@@ -43,7 +40,7 @@ pipeline {
     stage('Remove Unused docker image') {
       steps{
           echo '========== Removing Unused docker image ==========='          
-          sh "sudo docker rmi $imagename:$GIT_COMMIT"
+          sh "sudo docker rmi $imagename:$tag"
 
       }
     }
