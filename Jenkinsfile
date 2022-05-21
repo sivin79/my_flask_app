@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
-    tag = 'v.0.0.1'
+    tag = '$BUILD_NUMBER'
     dockerImage = ''
   }
   agent { label 'flask' }
@@ -41,7 +41,7 @@ pipeline {
     stage('Remove Unused docker image') {
       steps{
           echo '========== Removing Unused docker image ==========='          
-          sh "sudo docker rmi $imagename:latest"
+          sh "sudo docker rmi $imagename:$tag"
 
       }
     }
