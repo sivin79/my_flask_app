@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'slack' }
+    agent { label 'flask' }
 
     stages {
         stage('Сборка') {
