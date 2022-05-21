@@ -15,6 +15,7 @@ pipeline {
     stage('Building image') {
       steps{
         sh 'ls -la'
+        sh 'docker -v'
         script {
           dockerImage = docker.build imagename
         }
