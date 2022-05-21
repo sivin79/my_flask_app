@@ -13,13 +13,10 @@ pipeline {
       }
     }
     stage('Building image') {
-      steps{
-        sh 'ls -la'
+      steps{        
         sh 'docker -v'
         sh 'echo ${PAT-01}'
-        script {
-          dockerImage = docker.build imagename
-        }
+        sh 'docker build -t sivin79/my_flask_app .'
       }
     }
     stage('Deploy Image') {
