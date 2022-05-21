@@ -18,8 +18,9 @@ pipeline {
         echo '========== Building image ==========='
         sh 'docker -v'
         sh 'echo $BUILD_NUMBER'
+        sh 'echo $GIT_COMMIT'
         sh 'echo $dockerhub_sivenkov'        
-        sh 'sudo docker build -t $imagename:$tag .'
+        sh 'sudo docker build -t $imagename:$GIT_COMMIT .'
       }
     }
     stage('Docker login') {
@@ -33,7 +34,7 @@ pipeline {
     stage('Docker push') {
         steps {
             echo '========== start pushing image ==========='
-            sh 'sudo docker push $imagename:$tag'
+            sh 'sudo docker push $imagename:$GIT_COMMIT'
         }
     }
 
