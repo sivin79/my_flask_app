@@ -4,7 +4,7 @@ pipeline {
     registryCredential = 'sivin79'
     dockerImage = ''
   }
-  agent any
+  agent { label 'flask' }
   stages {
     stage('Cloning Git') {
       steps {
