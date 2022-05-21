@@ -1,27 +1,41 @@
 pipeline {
-    agent { label 'flask' }
+  environment {
+    imagename = "sivin79/my_flask_app"
+    registryCredential = 'sivin79'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: ${GITHUB_CRED}])
 
-    stages {
-        stage('Сборка') {
-            steps {
-                echo 'Выполняем команды для сборки'
-            }
-        }
-        stage('Тестирование') {
-            steps {
-                echo 'Тестируем нашу сборку!'
-            }
-        }
-        stage('Развертывание') {
-            steps {
-                echo 'Переносим код в рабочую среду или создаем артефакт'
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-cred', url: 'https://github.com/sivin79/my_flask_app.git']]])
-                sh 'ls -la'
-                withAWS(credentials:'aws-cred') {
-                sh 'aws --version'
-                sh 'aws s3 ls'
-                }
-            }
-        }
+      }
     }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+         sh "docker rmi $imagename:latest"
+
+      }
+    }
+  }
 }
