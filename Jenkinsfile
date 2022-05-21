@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: '${PAT-01}'])
+        git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: '$PAT-01'])
 
       }
     }
@@ -16,6 +16,7 @@ pipeline {
       steps{        
         sh 'docker -v'
         sh 'echo ${PAT-01}'
+        sh 'echo $imagename'
         sh 'sudo docker build -t sivin79/my_flask_app .'
       }
     }
