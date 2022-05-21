@@ -27,14 +27,14 @@ pipeline {
         steps {
             echo '========== docker login ==========='
             withCredentials([usernamePassword(credentialsId: 'dockerhub_sivenkov', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh 'sudo docker login -u $USERNAME -p $PASSWORD'
+                sh "sudo docker login -u $USERNAME -p $PASSWORD"
             }
         }
     }
     stage('Docker push') {
         steps {
             echo '========== start pushing image ==========='
-            sh 'sudo docker push $imagename:$GIT_COMMIT'
+            sh "sudo docker push $imagename:$GIT_COMMIT"
         }
     }
 
@@ -43,7 +43,7 @@ pipeline {
     stage('Remove Unused docker image') {
       steps{
           echo '========== Removing Unused docker image ==========='          
-          sh "sudo docker rmi $imagename:$tag"
+          sh "sudo docker rmi $imagename:$GIT_COMMIT"
 
       }
     }
