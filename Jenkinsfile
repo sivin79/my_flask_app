@@ -1,5 +1,5 @@
 pipeline {
-    agent label flask
+    agent label any
 
     stages {
         stage('Сборка') {
