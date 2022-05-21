@@ -8,18 +8,33 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: '$PAT-01'])
+        git([url: 'https://github.com/sivin79/my_flask_app.git', branch: 'main', credentialsId: 'dockerhub_sivenkov'])
 
       }
     }
     stage('Building image') {
       steps{        
         sh 'docker -v'
-        sh 'echo ${PAT-01}'
-        sh 'echo $imagename'
-        sh 'sudo docker build -t sivin79/my_flask_app .'
+        sh 'echo $dockerhub_sivenkov'        
+        sh 'sudo docker build -t $imagename .'
       }
     }
+    stage('Docker login') {
+        steps {
+            sh "echo '==========docker login==========='"
+            withCredentials([usernamePassword(credentialsId: 'dockerhub_sivenkov', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                sh 'docker login -u $USERNAME -p $PASSWORD'
+            }
+        }
+    }
+    stage('Docker push') {
+        steps {
+            sh "echo '========== start pushing image ==========='"
+            sh 'docker push $imagename:latest'
+        }
+    }
+
+
     stage('Deploy Image') {
       steps{
         script {
@@ -31,6 +46,8 @@ pipeline {
         }
       }
     }
+
+
     stage('Remove Unused docker image') {
       steps{
         sh "docker rmi $imagename:$BUILD_NUMBER"
