@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = 'sivin79'
-    tag = '$BUILD_NUMBER'
+    tag = 'v.0.0.2'
     dockerImage = ''
   }
   agent { label 'flask' }
@@ -17,6 +17,7 @@ pipeline {
       steps{        
         echo '========== Building image ==========='
         sh 'docker -v'
+        sh 'echo $BUILD_NUMBER'
         sh 'echo $dockerhub_sivenkov'        
         sh 'sudo docker build -t $imagename:$tag .'
       }
