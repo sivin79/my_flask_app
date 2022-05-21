@@ -16,7 +16,7 @@ pipeline {
       steps{        
         sh 'docker -v'
         sh 'echo ${PAT-01}'
-        sh 'docker build -t sivin79/my_flask_app .'
+        sh 'sudo docker build -t sivin79/my_flask_app .'
       }
     }
     stage('Deploy Image') {
