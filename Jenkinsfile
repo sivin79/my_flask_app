@@ -14,6 +14,7 @@ pipeline {
     }
     stage('Building image') {
       steps{        
+        echo '========== Building image ==========='
         sh 'docker -v'
         sh 'echo $dockerhub_sivenkov'        
         sh 'sudo docker build -t $imagename .'
@@ -21,7 +22,7 @@ pipeline {
     }
     stage('Docker login') {
         steps {
-            echo '==========docker login==========='
+            echo '========== docker login ==========='
             withCredentials([usernamePassword(credentialsId: 'dockerhub_sivenkov', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh 'sudo docker login -u $USERNAME -p $PASSWORD'
             }
@@ -38,8 +39,7 @@ pipeline {
 
     stage('Remove Unused docker image') {
       steps{
-          echo '========== Removing Unused docker image ==========='
-          sh "sudo docker rmi $imagename:$BUILD_NUMBER"
+          echo '========== Removing Unused docker image ==========='          
           sh "sudo docker rmi $imagename:latest"
 
       }
