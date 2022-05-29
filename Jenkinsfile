@@ -15,6 +15,7 @@ pipeline {
     stage('Building image') {
       steps{        
         echo "========== Building image ==========="
+        sh 'curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text=start!'
         sh "docker -v"        
         sh "sudo docker build -t $imagename:$tag ."
       }
@@ -37,7 +38,7 @@ pipeline {
       steps{
           echo '========== Removing Unused docker image ==========='          
           sh "sudo docker rmi $imagename:$tag"
-          sh "curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text=CI_finished_success!"
+          sh 'curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text=CI_finished_success!'
       }
     }
   }
