@@ -1,3 +1,3 @@
-DB_HOST = '3.250.12.159'
-DB_USER = 'root'
+DB_HOST = ''
+DB_USER = ''
 DB_PASSWORD = ''
