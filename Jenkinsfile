@@ -16,7 +16,7 @@ pipeline {
       steps{        
         echo "========== Building image ==========="
         sh "docker -v"
-        sh "curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text=start!"       
+        sh "curl --version"       
         sh "sudo docker build -t $imagename:$tag ."
       }
     }
