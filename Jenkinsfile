@@ -38,8 +38,10 @@ pipeline {
           echo '========== Removing Unused docker image ==========='          
           sh "sudo docker rmi $imagename:$tag"
           sh "curl --version"
-          echo '${{ secrets.TELEGRAM_CHAT_ID }}'
-          sh 'curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} -d text=build_image'
+          
+          withCredentials([string(credentialsId: 'TELEGRAM_TOKEN', variable: 'TELEGRAM_TOKEN'), string(credentialsId: 'TELEGRAM_CHAT_ID', variable: 'TELEGRAM_CHAT_ID')]) {
+          sh 'curl -s -X POST https://api.telegram.org/bot$TELEGRAM_TOKEN/sendMessage -d chat_id=$TELEGRAM_CHAT_ID -d text="CI finished success!"'
+          }
       }
     }
   }
