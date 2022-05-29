@@ -2,17 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import pymysql.cursors
-from config import *
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 import socket
 
 
+import config
+
+
 def get_connection():
 
-    connection = pymysql.connect(host=DB_HOST,
-                                 user=DB_USER,
-                                 password=DB_PASSWORD,
+    connection = pymysql.connect(host=config.DB_HOST,
+                                 user='root',
+                                 password=config.DB_PASSWORD,
                                  db='posts',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor)
@@ -74,10 +76,9 @@ def create():
 
 @app.route('/about', methods=('GET', 'POST'))
 def about():
-    USER = DB_USER
     server_ip = socket.gethostbyname(socket.gethostname())
     client_ip = request.remote_addr
-    return render_template('about.html', server_ip=server_ip, client_ip=client_ip, USER=USER)
+    return render_template('about.html', server_ip=server_ip, client_ip=client_ip, HOST=config.DB_HOST)
 
 
 @ app.route('/<int:id>/edit', methods=('GET', 'POST'))
