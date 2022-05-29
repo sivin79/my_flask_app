@@ -37,7 +37,7 @@ pipeline {
       steps{
           echo '========== Removing Unused docker image ==========='          
           sh "sudo docker rmi $imagename:$tag"
-          sh "curl -s -X POST https://api.telegram.org/bot'${{ secrets.TELEGRAM_TOKEN }}'/sendMessage -d chat_id='${{ secrets.TELEGRAM_CHAT_ID }}' -d text='CI finished success!'"
+          sh 'curl -s -X POST https://api.telegram.org/bot"${{ secrets.TELEGRAM_TOKEN }}"/sendMessage -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" -d text="CI finished success!"'
       }
     }
   }
