@@ -19,9 +19,7 @@ pipeline {
     stage('Deploy image') {
         steps{
             script{
-              withCredentials([usernamePassword(credentialsId: 'AWS_password', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                
-            
+              withCredentials([usernamePassword(credentialsId: 'AWS_password', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {           
                 sh "sudo docker login -u $USERNAME -p $PASSWORD https://190274974994.dkr.ecr.eu-west-1.amazonaws.com"
                 sh "sudo docker push 190274974994.dkr.ecr.eu-west-1.amazonaws.com/flask-blog:latest"
                 //docker.withRegistry("http://" + registry, "ecr:eu-west-1:" + registryCredential) {
