@@ -19,7 +19,7 @@ pipeline {
     stage('Deploy image') {
         steps{
             script{
-                docker.withRegistry('http://190274974994.dkr.ecr.eu-west-1.amazonaws.com/flask-blog', 'ecr:eu-west-1:registryCredential') {
+                docker.withRegistry('http://190274974994.dkr.ecr.eu-west-1.amazonaws.com/flask-blog', 'ecr:eu-west-1:AWS-ECR') {
                     sudo dockerImage.push()
                 }
             }
