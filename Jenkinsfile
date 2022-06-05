@@ -7,7 +7,7 @@ pipeline {
     tag = "latest"
     dockerImage = ''
   }
-  agent any
+  agent { label 'flask' }
   stages {
     stage('Building image') {
       steps{
