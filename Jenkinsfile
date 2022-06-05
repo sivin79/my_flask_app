@@ -1,10 +1,35 @@
 pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
-    registryCredential = "sivin79"
+    //registryCredential = "sivin79"
+    registry = '190274974994.dkr.ecr.eu-west-1.amazonaws.com/flask-blog'
+    registryCredential = 'aws-cred'
     tag = "latest"
     dockerImage = ''
   }
+  agent any
+  stages {
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy image') {
+        steps{
+            script{
+                docker.withRegistry("https://" + registry, "ecr:eu-west-1:" + registryCredential) {
+                    dockerImage.push()
+                }
+            }
+        }
+    }
+  }
+}
+
+
+/*
   agent { label 'flask' }
   stages {
     stage('Cloning Git') {
@@ -46,3 +71,4 @@ pipeline {
     }
   }
 }
+*/
