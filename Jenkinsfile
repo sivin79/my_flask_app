@@ -19,9 +19,9 @@ pipeline {
     stage('Deploy image') {
         steps{
             script{
-                docker.withRegistry("https://" + registry, "ecr:eu-west-1:" + registryCredential) {
+                docker.withRegistry("http://" + registry, "ecr:eu-west-1:" + registryCredential) {
                     sudo dockerImage.push()
-                }
+                }s
             }
         }
     }
