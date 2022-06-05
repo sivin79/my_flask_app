@@ -3,7 +3,7 @@ pipeline {
     imagename = "sivin79/my_flask_app"
     //registryCredential = "sivin79"
     registry = '190274974994.dkr.ecr.eu-west-1.amazonaws.com/flask-blog'
-    registryCredential = 'aws-cred'
+    registryCredential = 'AWS-ECR'
     tag = "latest"
     dockerImage = ''
   }
