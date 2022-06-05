@@ -12,7 +12,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = sudo docker.build registry + ":$BUILD_NUMBER"
         }
       }
     }
@@ -20,7 +20,7 @@ pipeline {
         steps{
             script{
                 docker.withRegistry("https://" + registry, "ecr:eu-west-1:" + registryCredential) {
-                    dockerImage.push()
+                    sudo dockerImage.push()
                 }
             }
         }
