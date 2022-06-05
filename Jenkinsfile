@@ -19,6 +19,7 @@ pipeline {
     stage('Deploy image') {
         steps{
             script{
+              sh "aws ecr get-login-password --region eu-west-1"
                 docker.withRegistry("http://" + registry, "ecr:eu-west-1:" + registryCredential) {
                     sudo dockerImage.push()
                 }s
