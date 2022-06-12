@@ -57,6 +57,7 @@ pipeline {
                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
               ]]) {
                     // AWS Code
+                    sh "terraform init"
                     sh "terraform plan"
                   }
             }                      
