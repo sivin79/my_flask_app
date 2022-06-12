@@ -45,5 +45,11 @@ pipeline {
           }
       }
     }
+    stage('CD') {
+        steps {
+            echo '========== starting terraform ==========='
+            sh "./terraform/terraform init"
+        }
+    }
   }
 }
