@@ -62,6 +62,7 @@ pipeline {
                   }
             }                
         }
+    }
         stage ("Terraform Plan Approval") {            
             steps {
               echo '========== Approval ==========='
@@ -79,6 +80,6 @@ pipeline {
         }
 
 
-    }
+    
   }
 }
