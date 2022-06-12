@@ -58,11 +58,27 @@ pipeline {
               ]]) {
                     // AWS Code
                     sh "terraform init"
-                    sh "terraform plan"
+                    sh "terraform plan"                    
                   }
-            }                      
-            
+            }                
         }
+        stage ("Terraform Plan Approval") {            
+            steps {
+              echo '========== Approval ==========='
+                script {
+                    def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
+                }
+            }
+        }
+
+        stage ("Terraform infra") {            
+            steps {
+              echo '========== Terraform infra ==========='
+                
+            }
+        }
+
+
     }
   }
 }
