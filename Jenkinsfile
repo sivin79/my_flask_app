@@ -50,13 +50,16 @@ pipeline {
             echo '========== starting terraform ==========='            
             dir("${env.WORKSPACE}/terraform"){
               sh "pwd" 
-              withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
-              // some block
-              sh terraform plan
-              }
-            }       
-            
-                
+              withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "aws-cred",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+              ]]) {
+                    // AWS Code
+                    sh "terraform plan"
+                  }
+            }                      
             
         }
     }
