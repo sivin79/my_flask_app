@@ -47,13 +47,12 @@ pipeline {
     }
     stage('CD') {
         steps {
-            echo '========== starting terraform ==========='
-            sh "terraform -version"
+            echo '========== starting terraform ==========='            
             dir("${env.WORKSPACE}/terraform"){
-                sh "pwd"
-                sh "ls -la"
-                sh "terraform init"
-            }           
+                sh "pwd"                
+            }       
+            sh "ls -la"
+                
             
         }
     }
