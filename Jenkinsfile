@@ -49,9 +49,13 @@ pipeline {
         steps {
             echo '========== starting terraform ==========='            
             dir("${env.WORKSPACE}/terraform"){
-                sh "pwd"                
+              sh "pwd" 
+              withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>]) {
+              // some block
+              sh terraform plan
+              }
             }       
-            sh "ls -la"
+            
                 
             
         }
