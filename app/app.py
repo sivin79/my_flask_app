@@ -76,7 +76,7 @@ def create():
 
 @app.route('/about', methods=('GET', 'POST'))
 def about():
-    server_ip = socket.gethostbyname(socket.gethostname())
+    #server_ip = socket.gethostbyname(socket.gethostname())
     client_ip = request.remote_addr
     return render_template('about.html', server_ip=server_ip, client_ip=client_ip, HOST=config.DB_HOST)
 

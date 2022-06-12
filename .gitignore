@@ -1,2 +1,3 @@
 /boto
 /__pycache__
+/terraform/.terraform*
