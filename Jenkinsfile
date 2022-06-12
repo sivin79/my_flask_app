@@ -50,16 +50,11 @@ pipeline {
             echo '========== starting terraform ==========='            
             dir("${env.WORKSPACE}/terraform"){
               sh "pwd" 
-              withCredentials([[
-                    $class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: "aws-cred",
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-              ]]) {
-                    // AWS Code
-                    sh "terraform init"
-                    sh "terraform plan"
-                  }
+              Use Jenkins UsernamePassword credentials information (Username: AccessKeyId, Password: SecretAccessKey):    
+              withAWS(credentials:'AWS-CREDS') {
+              // do something
+              sh "terraform plan"
+              }
             }                      
             
         }
