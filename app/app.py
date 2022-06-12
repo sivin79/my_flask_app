@@ -78,7 +78,7 @@ def create():
 def about():
     #server_ip = socket.gethostbyname(socket.gethostname())
     client_ip = request.remote_addr
-    return render_template('about.html', server_ip=server_ip, client_ip=client_ip, HOST=config.DB_HOST)
+    return render_template('about.html', client_ip=client_ip, HOST=config.DB_HOST)
 
 
 @ app.route('/<int:id>/edit', methods=('GET', 'POST'))
