@@ -48,8 +48,10 @@ pipeline {
     stage('CD') {
         steps {
             echo '========== starting terraform ==========='
+            sh "terraform -version"
+            sh "cd terraform"
             sh "ls -la"
-            sh "terraform/terraform init"
+            sh "terraform init"
         }
     }
   }
