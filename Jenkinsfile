@@ -49,7 +49,6 @@ pipeline {
         steps {
             echo '========== starting terraform ==========='            
             dir("${env.WORKSPACE}/terraform"){
-              sh "pwd" 
               withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: "AWS-CREDS",
@@ -75,7 +74,16 @@ pipeline {
         stage ("Terraform infra") {            
             steps {
               echo '========== Terraform infra ==========='
-                
+              dir("${env.WORKSPACE}/terraform"){
+              withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "AWS-CREDS",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+              ]]) {                    
+                    sh "terraform apply --auto-approve"                                       
+                  }
+            }                 
             }
         }
 
