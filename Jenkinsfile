@@ -94,10 +94,10 @@ pipeline {
   }
   post {
     failure {
-      echo "FAILURE"
+      echo "FAILURE :("
     }
     success {
-      echo "SUCCES"
+      echo "SUCCES! :)"
     }
   }
 }
