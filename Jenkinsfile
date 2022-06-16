@@ -20,20 +20,16 @@ pipeline {
         sh "sudo docker build -t $imagename:$tag ."
       }
     }
-    stage('Docker login') {
+    stage('Docker login & push') {
         steps {
-            echo '========== docker login ==========='
+            echo '========== Docker login & push ==========='
             withCredentials([usernamePassword(credentialsId: 'dockerhub_sivenkov', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh "sudo docker login -u $USERNAME -p $PASSWORD"
+                sh "sudo docker push $imagename:$tag"
             }
         }
     }
-    stage('Docker push') {
-        steps {
-            echo '========== start pushing image ==========='
-            sh "sudo docker push $imagename:$tag"
-        }
-    }
+  
     stage('Remove Unused docker image') {
       steps{
           echo '========== Removing Unused docker image ==========='          
@@ -41,6 +37,8 @@ pipeline {
           
       }
     }
+    
+    /*
     stage('CD') {
         steps {
             echo '========== starting terraform ==========='            
@@ -88,7 +86,7 @@ pipeline {
               }                 
             }
         }
-
+*/
 
     
   }
