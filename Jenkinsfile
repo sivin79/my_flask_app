@@ -92,4 +92,12 @@ pipeline {
 
     
   }
+  post {
+    failure {
+      echo "FAILURE"
+    }
+    success {
+      echo "SUCCES"
+    }
+  }
 }
