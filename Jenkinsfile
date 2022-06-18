@@ -2,7 +2,7 @@ pipeline {
   environment {
     imagename = "sivin79/my_flask_app"
     registryCredential = "sivin79"    
-    tag = "1.0.6"
+    tag = "latest"
     dockerImage = ''
   }
 
@@ -38,6 +38,23 @@ pipeline {
       }
     }
     
+    stage('Update APP') {
+      steps{
+          echo '========== Updating APP ==========='  
+
+          withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "AWS-CREDS",
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+              ]]) {
+                    // AWS Code
+          sh "aws ecs update-service --cluster my-cluster --service flask-blog-service --force-new-deployment"          
+          }
+      }
+    }
+
+
     /*
     stage('CD') {
         steps {
